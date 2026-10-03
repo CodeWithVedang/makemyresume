@@ -1,0 +1,126 @@
+import { createId } from "./ids";
+import {
+  builtInSectionKeys,
+  type Achievement,
+  type Certification,
+  type CustomEntry,
+  type Education,
+  type Experience,
+  type Language,
+  type Project,
+  type ResumeContent,
+  type ResumeSettings,
+  type TemplateId,
+  type VolunteerExperience,
+} from "./schema";
+
+export const DEFAULT_ACCENT = "#2F6B8A";
+
+export const defaultSettings: ResumeSettings = {
+  accentColor: DEFAULT_ACCENT,
+  fontFamily: "inter",
+  fontSize: 10.5,
+  lineHeight: 1.4,
+  sectionSpacing: "normal",
+  margins: "normal",
+  dateFormat: "MMM YYYY",
+  pageSize: "A4",
+};
+
+export function emptyResumeContent(
+  title = "Untitled Resume",
+  templateId: TemplateId = "classic",
+): ResumeContent {
+  return {
+    title,
+    templateId,
+    personalInfo: {
+      fullName: "",
+      professionalTitle: "",
+      email: "",
+      phone: "",
+      location: "",
+      website: "",
+      linkedin: "",
+      github: "",
+      portfolio: "",
+      otherLinks: [],
+      photo: null,
+    },
+    summary: "",
+    experience: [],
+    education: [],
+    skills: [],
+    projects: [],
+    certifications: [],
+    achievements: [],
+    languages: [],
+    volunteerExperience: [],
+    customSections: [],
+    sectionOrder: [...builtInSectionKeys],
+    hiddenSections: [],
+    settings: { ...defaultSettings },
+  };
+}
+
+export const newEntry = {
+  experience: (): Experience => ({
+    id: createId(),
+    jobTitle: "",
+    company: "",
+    location: "",
+    employmentType: "FULL_TIME",
+    startDate: "",
+    endDate: "",
+    current: false,
+    description: "",
+  }),
+  education: (): Education => ({
+    id: createId(),
+    institution: "",
+    degree: "",
+    fieldOfStudy: "",
+    location: "",
+    startDate: "",
+    endDate: "",
+    grade: "",
+    description: "",
+  }),
+  projects: (): Project => ({
+    id: createId(),
+    name: "",
+    role: "",
+    description: "",
+    technologies: [],
+    startDate: "",
+    endDate: "",
+    url: "",
+    githubUrl: "",
+  }),
+  certifications: (): Certification => ({
+    id: createId(),
+    name: "",
+    issuer: "",
+    issueDate: "",
+    expiryDate: "",
+    credentialId: "",
+    credentialUrl: "",
+  }),
+  achievements: (): Achievement => ({ id: createId(), title: "", description: "", date: "" }),
+  languages: (): Language => ({ id: createId(), name: "", proficiency: "" }),
+  volunteerExperience: (): VolunteerExperience => ({
+    id: createId(),
+    organization: "",
+    role: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+  }),
+  customEntry: (): CustomEntry => ({
+    id: createId(),
+    title: "",
+    subtitle: "",
+    date: "",
+    description: "",
+  }),
+};

@@ -1,0 +1,15 @@
+.rs-minimal .rs-header { margin-bottom: 1.8em; }
+.rs-minimal .rs-name { font-size: 1.9em; font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; }
+.rs-minimal .rs-title { color: var(--rs-muted); margin-top: 0.2em; }
+.rs-minimal .rs-contact {
+  list-style: none; display: flex; flex-wrap: wrap; gap: 0.2em 1.2em;
+  margin-top: 0.8em; font-size: 0.9em; color: var(--rs-muted);
+}
+.rs-minimal .rs-section { display: grid; grid-template-columns: 8.5em 1fr; column-gap: 1.4em; }
+.rs-minimal .rs-section-title {
+  font-size: 0.78em; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--rs-accent); padding-top: 0.25em;
+}
+.rs-minimal .rs-entry-title { font-weight: 600; }
+.rs-minimal .rs-entry-subtitle, .rs-minimal .rs-entry-meta { color: var(--rs-muted); }
+.rs-minimal .rs-dates { color: var(--rs-muted); }

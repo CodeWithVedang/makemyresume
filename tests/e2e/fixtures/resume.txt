@@ -1,0 +1,42 @@
+Jordan Lee
+Backend Engineer
+jordan.lee@example.com | +1 415 555 0134 | San Francisco, CA
+linkedin.com/in/jordanlee-example | github.com/jordanlee-example
+
+SUMMARY
+Backend engineer with six years of experience building payment systems.
+
+EXPERIENCE
+Senior Backend Engineer
+Paylane Inc.
+Mar 2021 – Present
+- Designed the ledger service handling 2M transactions per day
+- Led migration from MySQL to PostgreSQL
+
+Software Engineer | Orbit Labs | Remote
+06/2018 - 02/2021
+• Built internal billing APIs in Go
+
+EDUCATION
+University of Washington
+B.S. in Computer Science
+2014 - 2018
+GPA: 3.7/4.0
+
+SKILLS
+Languages: Go, Python, TypeScript
+Databases: PostgreSQL, Redis
+
+PROJECTS
+Ledger Viz
+- Visualization of double-entry ledgers
+Tech: React, D3
+
+CERTIFICATIONS
+AWS Certified Solutions Architect - Amazon Web Services, 2022
+
+LANGUAGES
+English (Native), Spanish (Intermediate)
+
+PUBLICATIONS
+"Idempotency at scale", Payments Engineering Blog, 2023

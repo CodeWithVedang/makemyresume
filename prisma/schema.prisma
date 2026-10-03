@@ -1,0 +1,342 @@
+// MakeMyResume data model.
+// Resume content is stored in structured, relational tables so it can be
+// queried, validated and deep-copied reliably. Only presentation settings and
+// section ordering use JSON columns.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Plan {
+  FREE
+  PRO
+  JOB_PASS
+  PRO_QUARTERLY
+  PRO_YEARLY
+}
+
+enum Visibility {
+  PRIVATE
+  UNLISTED
+  PUBLIC
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  INTERNSHIP
+  CONTRACT
+  FREELANCE
+  APPRENTICESHIP
+}
+
+// ---------------------------------------------------------------------------
+// Auth
+// ---------------------------------------------------------------------------
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  onboardedAt   DateTime?
+  // Lifetime count of share links created (enabling a public/unlisted link). Plan-limited.
+  shareLinksCreated Int   @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts            Account[]
+  resumes             Resume[]
+  passwordResetTokens PasswordResetToken[]
+  subscription        Subscription?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  // Only a SHA-256 hash of the token is stored; the raw token lives in the email link.
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Billing scaffold. No payment provider is wired up yet.
+model Subscription {
+  id                 String    @id @default(cuid())
+  userId             String    @unique
+  plan               Plan      @default(FREE)
+  status             String    @default("inactive")
+  provider           String?
+  providerCustomerId String?
+  currentPeriodEnd   DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// Resume
+// ---------------------------------------------------------------------------
+
+model Resume {
+  id         String     @id @default(cuid())
+  userId     String
+  title      String
+  templateId String     @default("classic")
+  isDemo     Boolean    @default(false)
+  visibility Visibility @default(PRIVATE)
+  publicSlug String?    @unique
+  summary    String     @default("") @db.Text
+  // ResumeSettings (typography, spacing, colors, page size). Validated with Zod.
+  settings   Json
+  // Ordered section keys, e.g. ["summary","experience","custom:abc"].
+  sectionOrder   Json
+  hiddenSections Json
+  // Incremented on every successful save; used to reject stale writes.
+  revision   Int        @default(0)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  user                User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  personalInfo        PersonalInfo?
+  experience          Experience[]
+  education           Education[]
+  skills              Skill[]
+  projects            Project[]
+  certifications      Certification[]
+  achievements        Achievement[]
+  languages           Language[]
+  volunteerExperience VolunteerExperience[]
+  customSections      CustomSection[]
+  revisions           ResumeRevision[]
+
+  @@index([userId, updatedAt(sort: Desc)])
+  @@index([visibility])
+}
+
+model PersonalInfo {
+  id                String  @id @default(cuid())
+  resumeId          String  @unique
+  fullName          String  @default("")
+  professionalTitle String  @default("")
+  email             String  @default("")
+  phone             String  @default("")
+  location          String  @default("")
+  website           String  @default("")
+  linkedin          String  @default("")
+  github            String  @default("")
+  portfolio         String  @default("")
+  // [{ label, url }]
+  otherLinks        Json
+  // Small, client-resized JPEG data URL (validated server-side), optional.
+  photo             String? @db.Text
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id             String         @id @default(cuid())
+  resumeId       String
+  position       Int
+  jobTitle       String         @default("")
+  company        String         @default("")
+  location       String         @default("")
+  employmentType EmploymentType @default(FULL_TIME)
+  startDate      String         @default("") // YYYY-MM
+  endDate        String         @default("")
+  current        Boolean        @default(false)
+  description    String         @default("") @db.Text
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, position])
+}
+
+model Education {
+  id           String @id @default(cuid())
+  resumeId     String
+  position     Int
+  institution  String @default("")
+  degree       String @default("")
+  fieldOfStudy String @default("")
+  location     String @default("")
+  startDate    String @default("")
+  endDate      String @default("")
+  grade        String @default("")
+  description  String @default("") @db.Text
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, position])
+}
+
+model Skill {
+  id       String @id @default(cuid())
+  resumeId String
+  position Int
+  name     String
+  category String @default("")
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, position])
+  @@index([name])
+}
+
+model Project {
+  id           String   @id @default(cuid())
+  resumeId     String
+  position     Int
+  name         String   @default("")
+  role         String   @default("")
+  description  String   @default("") @db.Text
+  technologies String[]
+  startDate    String   @default("")
+  endDate      String   @default("")
+  url          String   @default("")
+  githubUrl    String   @default("")
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, position])
+}
+
+model Certification {
+  id            String @id @default(cuid())
+  resumeId      String
+  position      Int
+  name          String @default("")
+  issuer        String @default("")
+  issueDate     String @default("")
+  expiryDate    String @default("")
+  credentialId  String @default("")
+  credentialUrl String @default("")
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, position])
+}
+
+model Achievement {
+  id          String @id @default(cuid())
+  resumeId    String
+  position    Int
+  title       String @default("")
+  description String @default("") @db.Text
+  date        String @default("")
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, position])
+}
+
+model Language {
+  id          String @id @default(cuid())
+  resumeId    String
+  position    Int
+  name        String @default("")
+  proficiency String @default("")
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, position])
+}
+
+model VolunteerExperience {
+  id           String @id @default(cuid())
+  resumeId     String
+  position     Int
+  organization String @default("")
+  role         String @default("")
+  startDate    String @default("")
+  endDate      String @default("")
+  description  String @default("") @db.Text
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, position])
+}
+
+model CustomSection {
+  id        String @id @default(cuid())
+  resumeId  String
+  // Client-generated id referenced from Resume.sectionOrder ("custom:<clientKey>").
+  clientKey String
+  position  Int
+  title     String
+
+  resume  Resume               @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  entries CustomSectionEntry[]
+
+  @@unique([resumeId, clientKey])
+  @@index([resumeId, position])
+}
+
+model CustomSectionEntry {
+  id          String @id @default(cuid())
+  sectionId   String
+  position    Int
+  title       String @default("")
+  subtitle    String @default("")
+  date        String @default("")
+  description String @default("") @db.Text
+
+  section CustomSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId, position])
+}
+
+// Snapshot of a resume taken before risky operations (template change,
+// import, restore). Lightweight version safety; the newest N are kept.
+model ResumeRevision {
+  id        String   @id @default(cuid())
+  resumeId  String
+  reason    String
+  snapshot  Json
+  createdAt DateTime @default(now())
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, createdAt(sort: Desc)])
+}

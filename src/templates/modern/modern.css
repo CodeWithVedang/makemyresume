@@ -1,0 +1,25 @@
+.rs-modern .rs-header {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5em;
+  padding-bottom: 0.9em; margin-bottom: 1.1em; border-bottom: 2px solid var(--rs-accent);
+}
+.rs-modern .rs-name { font-size: 2.3em; font-weight: 750; letter-spacing: -0.02em; line-height: 1.05; }
+.rs-modern .rs-title { font-size: 1.15em; color: var(--rs-accent); font-weight: 600; margin-top: 0.3em; }
+.rs-modern .rs-contact {
+  list-style: none; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.1em 1em;
+  max-width: 60%; text-align: right; font-size: 0.9em; color: var(--rs-muted);
+}
+.rs-modern .rs-section-title {
+  font-size: 0.85em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--rs-accent); margin-bottom: 0.6em;
+}
+.rs-modern .rs-entry { display: grid; grid-template-columns: 7.2em 1fr; column-gap: 1em; }
+.rs-modern .rs-entry-head { display: contents; }
+.rs-modern .rs-entry-main { grid-column: 2; grid-row: 1; }
+.rs-modern .rs-entry-head .rs-dates {
+  grid-column: 1; grid-row: 1; text-align: left; font-size: 0.85em; color: var(--rs-muted);
+  padding-top: 0.15em; white-space: normal;
+}
+.rs-modern .rs-entry-body { grid-column: 2; }
+.rs-modern .rs-entry-title { font-weight: 650; font-size: 1.05em; }
+.rs-modern .rs-entry-subtitle { color: var(--rs-ink); font-weight: 500; }
+.rs-modern .rs-skill-category { font-weight: 650; }

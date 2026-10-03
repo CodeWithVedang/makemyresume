@@ -1,26 +1,264 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
+  --color-brand: var(--brand);
+  --color-highlight: var(--highlight);
+  --color-highlight-soft: var(--highlight-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-canvas: var(--canvas);
+  --shadow-card: var(--shadow-md);
+  --shadow-page: var(--shadow-page);
+  --ease-out-soft: var(--ease-out);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/*
+ * Design tokens. Light theme is the default; .dark overrides colors only.
+ * Brand: deep harbor blue (primary), steel blue (secondary), warm coral accent.
+ */
+:root {
+  --radius: 0.5rem;
+
+  --background: #f7f8fa;
+  --foreground: #17202a;
+  --card: #ffffff;
+  --card-foreground: #17202a;
+  --popover: #ffffff;
+  --popover-foreground: #17202a;
+  --primary: #183b56;
+  --primary-foreground: #ffffff;
+  --secondary: #eaf0f4;
+  --secondary-foreground: #183b56;
+  --muted: #eef1f4;
+  --muted-foreground: #5b6670;
+  --accent: #edf2f6;
+  --accent-foreground: #17202a;
+  --destructive: #b42318;
+  --border: #e4e8ec;
+  --input: #d5dce3;
+  --ring: #2f6b8a;
+
+  --brand: #2f6b8a;
+  --highlight: #f59e6c;
+  --highlight-soft: #fdeee4;
+  --success: #2e8b72;
+  --success-soft: #e3f3ee;
+  --warning: #9a6200;
+  --warning-soft: #fdf3dc;
+  --canvas: #e9edf1;
+
+  --shadow-sm: 0 1px 2px rgb(23 32 42 / 0.06);
+  --shadow-md: 0 1px 2px rgb(23 32 42 / 0.05), 0 4px 12px rgb(23 32 42 / 0.06);
+  --shadow-page: 0 1px 3px rgb(23 32 42 / 0.08), 0 12px 32px rgb(23 32 42 / 0.1);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 160ms;
+  --duration-normal: 240ms;
+  --duration-slow: 380ms;
+
+  --chart-1: #2f6b8a;
+  --chart-2: #f59e6c;
+  --chart-3: #2e8b72;
+  --chart-4: #183b56;
+  --chart-5: #68737d;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #17202a;
+  --sidebar-primary: #183b56;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #edf2f6;
+  --sidebar-accent-foreground: #17202a;
+  --sidebar-border: #e4e8ec;
+  --sidebar-ring: #2f6b8a;
+}
+
+.dark {
+  --background: #0e141b;
+  --foreground: #e6edf3;
+  --card: #151e27;
+  --card-foreground: #e6edf3;
+  --popover: #151e27;
+  --popover-foreground: #e6edf3;
+  --primary: #8cc8e8;
+  --primary-foreground: #0e141b;
+  --secondary: #1c2833;
+  --secondary-foreground: #d7e6f0;
+  --muted: #1a2530;
+  --muted-foreground: #93a1ae;
+  --accent: #1e2b37;
+  --accent-foreground: #e6edf3;
+  --destructive: #f97066;
+  --border: #243240;
+  --input: #2c3b4a;
+  --ring: #8cc8e8;
+
+  --brand: #8cc8e8;
+  --highlight: #ffad7a;
+  --highlight-soft: #3a2a20;
+  --success: #65c7a3;
+  --success-soft: #16302a;
+  --warning: #f5c060;
+  --warning-soft: #33290f;
+  --canvas: #0a1016;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 12px rgb(0 0 0 / 0.3);
+  --shadow-page: 0 1px 3px rgb(0 0 0 / 0.5), 0 12px 32px rgb(0 0 0 / 0.45);
+
+  --sidebar: #151e27;
+  --sidebar-foreground: #e6edf3;
+  --sidebar-primary: #8cc8e8;
+  --sidebar-primary-foreground: #0e141b;
+  --sidebar-accent: #1e2b37;
+  --sidebar-accent-foreground: #e6edf3;
+  --sidebar-border: #243240;
+  --sidebar-ring: #8cc8e8;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+@layer base {
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
+
+/* Print: only the resume page is printed. */
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff !important; }
+}
+
+/* --- Motion utilities (all disabled by the reduced-motion rule above) ----- */
+
+/* Soft radial wash behind hero sections. */
+.hero-glow {
+  background:
+    radial-gradient(40rem 22rem at 15% 10%, color-mix(in srgb, var(--brand) 14%, transparent), transparent 70%),
+    radial-gradient(34rem 20rem at 85% 0%, color-mix(in srgb, var(--highlight) 18%, transparent), transparent 70%);
+}
+
+/* Light sweep across primary CTAs on hover/focus. */
+.shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 700ms var(--ease-out);
+}
+.shine:hover::after,
+.shine:focus-visible::after {
+  transform: translateX(120%);
+}
+
+/* Highlighted word underline that draws in. */
+.ink-underline {
+  background-image: linear-gradient(var(--highlight), var(--highlight));
+  background-repeat: no-repeat;
+  background-position: 0 92%;
+  background-size: 100% 0.22em;
+  animation: ink-draw 900ms var(--ease-out) 400ms both;
+}
+@keyframes ink-draw {
+  from { background-size: 0% 0.22em; }
+  to { background-size: 100% 0.22em; }
+}
+
+/* Infinite horizontal ticker (pauses on hover). */
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Gentle float for decorative hero chips. */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.float-slow { animation: float-y 5s ease-in-out infinite; }
+.float-slower { animation: float-y 6.5s ease-in-out 0.8s infinite; }

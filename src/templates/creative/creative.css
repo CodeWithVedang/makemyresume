@@ -1,0 +1,85 @@
+.rs-creative .rs-header {
+  display: flex;
+  align-items: center;
+  gap: 1.1em;
+  margin-bottom: 1.3em;
+  padding: 1.1em 1.3em;
+  border-radius: 0.5em;
+  background: color-mix(in srgb, var(--rs-accent) 10%, white);
+}
+.rs-creative .rs-photo {
+  flex: none;
+  width: 4.6em;
+  height: 4.6em;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.rs-creative .rs-name {
+  font-size: 2.2em;
+  font-weight: 750;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.rs-creative .rs-title {
+  margin-top: 0.25em;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--rs-accent);
+}
+.rs-creative .rs-columns {
+  display: grid;
+  grid-template-columns: 31% minmax(0, 1fr);
+  gap: 1.6em;
+}
+.rs-creative .rs-sidebar {
+  padding-right: 1.2em;
+  border-right: 1px solid var(--rs-rule);
+  font-size: 0.93em;
+}
+.rs-creative .rs-section-title {
+  margin-bottom: 0.55em;
+  font-size: 0.82em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rs-accent);
+}
+.rs-creative .rs-contact {
+  list-style: none;
+}
+.rs-creative .rs-contact li + li {
+  margin-top: 0.45em;
+}
+.rs-creative .rs-contact-label {
+  display: block;
+  font-size: 0.78em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rs-muted);
+}
+.rs-creative .rs-skill-group + .rs-skill-group {
+  margin-top: 0.6em;
+}
+.rs-creative .rs-skill-category {
+  margin-bottom: 0.2em;
+  font-size: 0.95em;
+  font-weight: 650;
+}
+.rs-creative .rs-skills-list ul {
+  list-style: none;
+}
+.rs-creative .rs-sidebar .rs-entry-head {
+  display: block;
+}
+.rs-creative .rs-sidebar .rs-dates {
+  display: block;
+  text-align: left;
+}
+.rs-creative .rs-entry-title {
+  font-size: 1.04em;
+  font-weight: 650;
+}
+.rs-creative .rs-entry-subtitle {
+  font-weight: 550;
+  color: var(--rs-accent);
+}
