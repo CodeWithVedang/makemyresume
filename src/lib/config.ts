@@ -12,6 +12,20 @@ export const DEVELOPER = {
   github: "https://github.com/codewithvedang",
 } as const;
 
+/**
+ * Absolute site origin. Accepts values without a scheme ("example.com") and
+ * falls back to Vercel's deployment URL, then localhost.
+ */
 export function appUrl(): string {
-  return (process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000").replace(/\/$/, "");
+  const raw =
+    process.env.NEXT_PUBLIC_APP_URL?.trim() ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL ||
+    "http://localhost:3000";
+  const withScheme = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  try {
+    return new URL(withScheme).origin;
+  } catch {
+    return "http://localhost:3000";
+  }
 }
