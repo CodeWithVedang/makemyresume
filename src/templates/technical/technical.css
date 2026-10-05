@@ -1,0 +1,46 @@
+.rs-technical .rs-header {
+  margin-bottom: 1em;
+  padding-left: 0.8em;
+  border-left: 4px solid var(--rs-accent);
+}
+.rs-technical .rs-name {
+  font-size: 2.1em;
+  font-weight: 750;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.rs-technical .rs-title {
+  margin-top: 0.2em;
+  font-size: 1.05em;
+  color: var(--rs-muted);
+}
+.rs-technical .rs-contact {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1em 1em;
+  margin-top: 0.45em;
+  font-size: 0.88em;
+}
+.rs-technical .rs-section-title {
+  margin-bottom: 0.5em;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rs-accent);
+}
+.rs-technical .rs-entry-title {
+  font-weight: 650;
+}
+.rs-technical .rs-entry-subtitle {
+  font-weight: 550;
+  color: var(--rs-accent);
+}
+.rs-technical .rs-dates,
+.rs-technical .rs-tech {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.84em;
+  color: var(--rs-muted);
+}

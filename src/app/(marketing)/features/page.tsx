@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { templates } from "@/templates/registry";
+
+const listNames = (names: string[]) =>
+  names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : (names[0] ?? "");
+const atsNames = listNames(templates.filter((t) => t.atsFriendly).map((t) => t.name));
+const styledNames = listNames(templates.filter((t) => !t.atsFriendly).map((t) => t.name));
 
 export const metadata: Metadata = {
   title: "Features",
@@ -21,7 +27,7 @@ const GROUPS = [
   {
     title: "Design",
     items: [
-      ["Five distinct templates", "Classic, Modern and Minimal are single-column and ATS friendly. Executive and Creative add more personality."],
+      [`${templates.length} distinct templates`, `${atsNames} are single-column and ATS friendly. ${styledNames} add more personality.`],
       ["Safe customization", "Accent color, fonts, font size, line height, section spacing, margins, date format and page size."],
       ["Lossless switching", "Templates only change presentation. Your content and order are preserved."],
     ],

@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 
 import { TemplateGallery } from "@/components/landing/TemplateGallery";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { appUrl } from "@/lib/config";
+import { templates } from "@/templates/registry";
 
 export const metadata: Metadata = {
-  title: "Resume Templates",
-  description: "Professional resume templates, including ATS-friendly single-column layouts.",
+  title: "Free Resume Templates — ATS-Friendly Formats for Freshers & Professionals",
+  description: `${templates.length} professional resume templates, including ATS-friendly single-column formats for freshers and experienced professionals. Fill in online and download as PDF.`,
+  keywords: ["resume templates", "free resume templates", "ATS friendly resume template", "resume format for freshers", "resume format download"],
   alternates: { canonical: "/templates" },
 };
 
@@ -20,6 +24,19 @@ export default function TemplatesPage() {
       <div className="mt-10">
         <TemplateGallery />
       </div>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Resume templates",
+          itemListElement: templates.map((tpl, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: `${tpl.name} resume template`,
+            url: `${appUrl()}/templates/${tpl.id}`,
+          })),
+        }}
+      />
     </div>
   );
 }

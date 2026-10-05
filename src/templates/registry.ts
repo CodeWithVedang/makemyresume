@@ -19,6 +19,8 @@ export type TemplateMeta = {
   /** Single column, no graphics or tables around critical text. */
   atsFriendly: boolean;
   supportsPhoto: boolean;
+  /** Shown when the template places sections differently from the editor order. */
+  layoutNote?: string;
 };
 
 /** Presentation-only metadata. Safe to import on server and client. */
@@ -67,6 +69,45 @@ export const templates: readonly TemplateMeta[] = [
     categories: ["Creative", "Modern", "Fresher"],
     atsFriendly: false,
     supportsPhoto: true,
+    layoutNote: "Skills, languages and certifications appear in the sidebar.",
+  },
+  {
+    id: "compact",
+    name: "Compact",
+    style: "Single column · Dense · Inline details",
+    description: "Tight spacing that fits more experience on one page without hurting ATS parsing.",
+    categories: ["ATS", "Professional", "Fresher"],
+    atsFriendly: true,
+    supportsPhoto: false,
+  },
+  {
+    id: "elegant",
+    name: "Elegant",
+    style: "Centered · Small caps · Fine rules",
+    description: "Refined, centered typography suited to consulting, finance, law and academia.",
+    categories: ["ATS", "Professional", "Minimal"],
+    atsFriendly: true,
+    supportsPhoto: false,
+  },
+  {
+    id: "technical",
+    name: "Technical",
+    style: "Single column · Skills first · Mono labels",
+    description: "Built for engineers: your stack sits right under the summary, where recruiters look first.",
+    categories: ["ATS", "Developer", "Modern"],
+    atsFriendly: true,
+    supportsPhoto: false,
+    layoutNote: "Skills always appear right after your summary.",
+  },
+  {
+    id: "sidebar",
+    name: "Sidebar",
+    style: "Two columns · Tinted profile column · Photo",
+    description: "A tinted profile column with contact, skills and languages beside your experience.",
+    categories: ["Creative", "Modern", "Executive"],
+    atsFriendly: false,
+    supportsPhoto: true,
+    layoutNote: "Skills, languages, certifications and achievements appear in the sidebar.",
   },
 ];
 

@@ -12,7 +12,7 @@ test("@mobile editor uses Edit / Preview / Design tabs and has no horizontal scr
   await tabs.getByRole("tab", { name: "Preview" }).click();
   await expect(page.getByRole("region", { name: "Live preview" }).getByText("Sam Mobile")).toBeVisible();
   await tabs.getByRole("tab", { name: "Design" }).click();
-  await expect(page.getByRole("radiogroup", { name: "Template" })).toBeVisible();
+  await expect(page.getByRole("radiogroup", { name: "Template", exact: true })).toBeVisible();
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);

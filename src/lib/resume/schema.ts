@@ -245,7 +245,7 @@ const sectionKey = z.union([
   ),
 ]);
 
-export const templateIds = ["classic", "modern", "minimal", "executive", "creative"] as const;
+export const templateIds = ["classic", "modern", "minimal", "executive", "creative", "compact", "elegant", "technical", "sidebar"] as const;
 export type TemplateId = (typeof templateIds)[number];
 
 /** Everything the user edits. Persisted by `saveResume`. */

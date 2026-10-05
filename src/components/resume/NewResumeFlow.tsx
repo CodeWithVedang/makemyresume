@@ -11,6 +11,7 @@ import { Field } from "@/components/forms/Field";
 import { AtsBadge } from "@/components/landing/AtsBadge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { paidTemplateMessage } from "@/lib/billing/plans";
 import type { ImportResult } from "@/lib/import/parse-resume";
 import type { TemplateId } from "@/lib/resume/schema";
 import { cn } from "@/lib/utils";
@@ -46,7 +47,7 @@ function TemplatePicker({
           >
             <input type="radio" name="template" className="sr-only" checked={value === t.id} onChange={() => {
                 if (locked.includes(t.id)) {
-                  showUpgradeToast(t.name + " is part of the paid plans, from ₹99. Free includes Classic, Modern and Minimal.");
+                  showUpgradeToast(paidTemplateMessage(t.name));
                   return;
                 }
                 onChange(t.id);

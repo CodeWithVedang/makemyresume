@@ -2,13 +2,12 @@
 
 import { Menu } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { Logo } from "@/components/brand/Logo";
+import { NavLink } from "@/components/layout/NavLink";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/templates", label: "Templates" },
@@ -18,7 +17,6 @@ const NAV = [
 ];
 
 export function SiteHeader() {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/75">
@@ -28,15 +26,14 @@ export function SiteHeader() {
           <ul className="flex items-center gap-1">
             {NAV.map((item) => (
               <li key={item.href}>
-                <Link
+                <NavLink
                   href={item.href}
-                  className={cn(
-                    "rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground",
-                    pathname === item.href && "font-medium text-foreground",
-                  )}
+                  matchPrefix
+                  className="block rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  activeClassName="font-medium text-foreground"
                 >
                   {item.label}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>

@@ -11,6 +11,7 @@ import { EditorProvider, useEditor } from "@/components/resume/editor/EditorCont
 import { SectionsPanel } from "@/components/resume/editor/SectionsPanel";
 import { ScaledResume } from "@/components/resume/ScaledResume";
 import { Button } from "@/components/ui/button";
+import { paidTemplateMessage } from "@/lib/billing/plans";
 import type { ImportReportItem, ImportResult } from "@/lib/import/parse-resume";
 import type { TemplateId } from "@/lib/resume/schema";
 import { cn } from "@/lib/utils";
@@ -153,7 +154,7 @@ function ReviewBody({
                       checked={content.templateId === t.id}
                       onChange={() => {
                         if (locked.includes(t.id)) {
-                          showUpgradeToast(t.name + " is part of the paid plans, from ₹99.");
+                          showUpgradeToast(paidTemplateMessage(t.name));
                           return;
                         }
                         update((c) => ({ ...c, templateId: t.id }));
