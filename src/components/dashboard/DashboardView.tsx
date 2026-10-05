@@ -33,6 +33,11 @@ export type PlanSummary = {
   maxLinks: number | null;
 };
 
+function usage(used: number, max: number | null, noun: string): string {
+  const plural = (n: number) => `${noun}${n === 1 ? "" : "s"}`;
+  return max === null ? `${used} ${plural(used)} (unlimited)` : `${used} of ${max} ${plural(max)} used`;
+}
+
 function PlanStrip({ plan }: { plan: PlanSummary }) {
   const full = plan.maxResumes !== null && plan.resumes >= plan.maxResumes;
   return (
@@ -44,7 +49,7 @@ function PlanStrip({ plan }: { plan: PlanSummary }) {
         <div>
           <p className="text-sm font-semibold">{plan.name} plan</p>
           <p className="text-xs text-muted-foreground">
-            {plan.resumes}/{plan.maxResumes ?? "∞"} resumes · {plan.links}/{plan.maxLinks ?? "∞"} share links used
+            {usage(plan.resumes, plan.maxResumes, "resume")} · {usage(plan.links, plan.maxLinks, "share link")}
           </p>
         </div>
       </div>

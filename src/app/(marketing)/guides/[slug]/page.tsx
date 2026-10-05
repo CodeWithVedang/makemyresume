@@ -76,6 +76,17 @@ export default async function GuidePage(props: PageProps<"/guides/[slug]">) {
           mainEntityOfPage: `${appUrl()}/guides/${guide.slug}`,
         }}
       />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: appUrl() },
+            { "@type": "ListItem", position: 2, name: "Guides", item: `${appUrl()}/guides` },
+            { "@type": "ListItem", position: 3, name: guide.title, item: `${appUrl()}/guides/${guide.slug}` },
+          ],
+        }}
+      />
     </article>
   );
 }

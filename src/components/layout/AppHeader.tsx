@@ -4,12 +4,13 @@ import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 
 import { AccountMenu } from "./AccountMenu";
+import { NavLink } from "./NavLink";
 import { OfflineIndicator } from "./OfflineIndicator";
 
-const LINKS = [
+const LINKS: Array<{ href: string; label: string; nav?: string }> = [
   { href: "/dashboard", label: "Resumes" },
   { href: "/templates", label: "Templates" },
-  { href: "/settings/profile", label: "Settings" },
+  { href: "/settings", label: "Settings", nav: "/settings/profile" },
 ];
 
 export function AppHeader({ user }: { user: { name: string | null; email: string } }) {
@@ -21,9 +22,14 @@ export function AppHeader({ user }: { user: { name: string | null; email: string
           <ul className="flex gap-1 text-sm">
             {LINKS.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground">
+                <NavLink
+                  href={l.nav ?? l.href}
+                  matchPrefix={l.href}
+                  className="block rounded-md px-3 py-2 text-muted-foreground transition-colors hover:text-foreground"
+                  activeClassName="font-medium text-foreground"
+                >
                   {l.label}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>

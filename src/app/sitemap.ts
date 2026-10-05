@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { appUrl } from "@/lib/config";
 import { GUIDES } from "@/lib/content/guides";
+import { templateIds } from "@/lib/resume/schema";
 
 /** Marketing pages and guides. Public resumes are discoverable via their own links, not listed here. */
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -16,6 +17,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   return [
     ...pages.map((p) => ({ url: `${base}${p.path}`, changeFrequency: "weekly" as const, priority: p.priority })),
+    ...templateIds.map((id) => ({
+      url: `${base}/templates/${id}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     ...GUIDES.map((g) => ({
       url: `${base}/guides/${g.slug}`,
       lastModified: new Date(g.updated),

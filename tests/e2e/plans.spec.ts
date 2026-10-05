@@ -19,7 +19,7 @@ test("Free plan: one resume, paid templates locked, upgrade path shown", async (
 
   // Dashboard shows usage.
   await page.goto("/dashboard");
-  await expect(page.getByText("1/1 resumes · 0/3 share links used")).toBeVisible();
+  await expect(page.getByText("1 of 1 resume used · 0 of 3 share links used")).toBeVisible();
 });
 
 test("Free plan: only 3 share links can be created", async ({ page }) => {
