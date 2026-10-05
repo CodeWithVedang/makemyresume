@@ -24,6 +24,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/config";
 import { LANDING_FAQ } from "@/lib/content/faq";
+import { templateIds } from "@/lib/resume/schema";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -85,7 +86,7 @@ export default function LandingPage() {
             </p>
             <p className="mt-4 max-w-lg text-lg text-muted-foreground">
               Create an ATS-friendly resume in minutes using your own experience, skills and achievements. Live
-              preview, five templates and instant PDF download.
+              preview, {templateIds.length} templates and instant PDF download.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild className="shine h-12 px-6 text-base">

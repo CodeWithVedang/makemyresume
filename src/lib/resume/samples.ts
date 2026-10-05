@@ -1,5 +1,5 @@
 import { defaultSettings, emptyResumeContent } from "./defaults";
-import type { ResumeContent } from "./schema";
+import type { ResumeContent, TemplateId } from "./schema";
 
 /**
  * Demo resumes for marketing previews, the seed script and development.
@@ -259,3 +259,20 @@ export const sampleMarketer: ResumeContent = {
 };
 
 export const sampleResumes = [sampleSoftwareEngineer, sampleDesigner, sampleMarketer] as const;
+
+/** Which demo resume best shows off each template. */
+const SAMPLE_FOR: Record<TemplateId, ResumeContent> = {
+  classic: sampleSoftwareEngineer,
+  modern: sampleSoftwareEngineer,
+  minimal: sampleSoftwareEngineer,
+  executive: sampleMarketer,
+  creative: sampleDesigner,
+  compact: sampleSoftwareEngineer,
+  elegant: sampleMarketer,
+  technical: sampleSoftwareEngineer,
+  sidebar: sampleDesigner,
+};
+
+export function sampleForTemplate(id: TemplateId): ResumeContent {
+  return { ...SAMPLE_FOR[id], templateId: id };
+}

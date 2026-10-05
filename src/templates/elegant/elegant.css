@@ -1,0 +1,48 @@
+.rs-elegant .rs-header {
+  margin-bottom: 1.2em;
+  text-align: center;
+}
+.rs-elegant .rs-name {
+  font-size: 2.3em;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  font-variant: small-caps;
+}
+.rs-elegant .rs-title {
+  margin-top: 0.3em;
+  font-style: italic;
+  color: var(--rs-accent);
+}
+.rs-elegant .rs-contact {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.1em 0.6em;
+  margin-top: 0.6em;
+  padding: 0.35em 0;
+  border-top: 1px solid var(--rs-rule);
+  border-bottom: 1px solid var(--rs-rule);
+  font-size: 0.9em;
+}
+.rs-elegant .rs-contact li + li::before {
+  content: "·";
+  margin-right: 0.6em;
+  color: var(--rs-accent);
+}
+.rs-elegant .rs-section-title {
+  margin-bottom: 0.6em;
+  text-align: center;
+  font-size: 1.05em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-variant: small-caps;
+  color: var(--rs-accent);
+}
+.rs-elegant .rs-entry-title {
+  font-weight: 650;
+}
+.rs-elegant .rs-entry-subtitle {
+  font-style: italic;
+}

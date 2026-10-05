@@ -1,4 +1,5 @@
-import type { TemplateId } from "@/lib/resume/schema";
+import { templateIds, type TemplateId } from "@/lib/resume/schema";
+import { getTemplateMeta } from "@/templates/registry";
 
 /**
  * Plan catalog, priced for Indian job seekers.
@@ -35,7 +36,7 @@ export type PlanDefinition = Entitlements & {
 };
 
 const UNLIMITED = Number.POSITIVE_INFINITY;
-const FREE_TEMPLATES: readonly TemplateId[] = ["classic", "modern", "minimal"];
+const FREE_TEMPLATES: readonly TemplateId[] = ["classic", "modern", "minimal", "compact"];
 
 export const PLANS: Record<PlanId, PlanDefinition> = {
   FREE: {
@@ -51,7 +52,7 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
     advancedCustomization: false,
     features: [
       "1 resume",
-      "3 ATS-friendly templates",
+      `${FREE_TEMPLATES.length} ATS-friendly templates`,
       "Unlimited PDF downloads",
       "Import from PDF or Word",
       "3 shareable links",
@@ -68,7 +69,7 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
     maxShareLinks: 15,
     templates: "all",
     advancedCustomization: true,
-    features: ["5 resumes, one per role", "All 5 templates", "15 shareable links", "Custom accent colors"],
+    features: ["5 resumes, one per role", `All ${templateIds.length} templates`, "15 shareable links", "Custom accent colors"],
   },
   PRO_QUARTERLY: {
     plan: "PRO_QUARTERLY",
@@ -144,6 +145,13 @@ export function entitlementsFor(plan: PlanId): Entitlements {
 
 export function templateAllowed(e: Entitlements, templateId: TemplateId): boolean {
   return e.templates === "all" || e.templates.includes(templateId);
+}
+
+/** Upgrade prompt for a template the Free plan does not include. */
+export function paidTemplateMessage(templateName: string): string {
+  const names = FREE_TEMPLATES.map((id) => getTemplateMeta(id).name);
+  const free = names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : names[0];
+  return `${templateName} is part of the paid plans, from ${formatInr(PLANS.JOB_PASS.priceInr)}. Free includes ${free}.`;
 }
 
 export function formatLimit(n: number): string {

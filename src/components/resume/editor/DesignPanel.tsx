@@ -2,14 +2,16 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { Check, Lock } from "lucide-react";
-import { useDeferredValue, type ReactNode } from "react";
+import { useDeferredValue, useState, type ReactNode } from "react";
 
 import { showUpgradeToast } from "@/components/billing/upgrade-toast";
 import { AtsBadge } from "@/components/landing/AtsBadge";
 import { ScaledResume } from "@/components/resume/ScaledResume";
 import { Slider } from "@/components/ui/slider";
-import { templateAllowed, type Entitlements } from "@/lib/billing/plans";
+import { paidTemplateMessage, templateAllowed, type Entitlements } from "@/lib/billing/plans";
+import { completionPercent } from "@/lib/resume/completion";
 import { ACCENT_PRESETS, FONT_STACKS } from "@/lib/resume/page";
+import { sampleForTemplate } from "@/lib/resume/samples";
 import {
   dateFormats,
   fontFamilies,
@@ -20,7 +22,7 @@ import {
   type TemplateId,
 } from "@/lib/resume/schema";
 import { cn } from "@/lib/utils";
-import { templates } from "@/templates/registry";
+import { getTemplateMeta, templates } from "@/templates/registry";
 
 import { useEditor } from "./EditorContext";
 
@@ -67,6 +69,16 @@ function Segmented<T extends string>({
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+type TemplateFilter = "all" | "ats" | "photo" | "free";
+const TEMPLATE_FILTERS: ReadonlyArray<{ value: TemplateFilter; label: string }> = [
+  { value: "all", label: "All" },
+  { value: "ats", label: "ATS" },
+  { value: "photo", label: "Photo" },
+  { value: "free", label: "Free" },
+];
+/** Below this completion, thumbnails use sample content so layouts are recognisable. */
+const SAMPLE_THRESHOLD = 25;
+
 export function DesignPanel({
   entitlements,
   onTemplateChange,
@@ -81,12 +93,30 @@ export function DesignPanel({
   const thumbContent = useDeferredValue(content);
   const set = (patch: Partial<ResumeSettings>) => update((c) => ({ ...c, settings: { ...c.settings, ...patch } }));
   const advanced = entitlements.advancedCustomization;
+  const currentMeta = getTemplateMeta(content.templateId);
+  const [filter, setFilter] = useState<TemplateFilter>("all");
+  const useSample = completionPercent(thumbContent) < SAMPLE_THRESHOLD;
+  const visibleTemplates = templates.filter((t) => {
+    if (filter === "ats") return t.atsFriendly;
+    if (filter === "photo") return t.supportsPhoto;
+    if (filter === "free") return templateAllowed(entitlements, t.id) && entitlements.templates !== "all";
+    return true;
+  });
 
   return (
     <div className="space-y-8">
       <Group title="Template">
+        <Segmented
+          label="Filter templates"
+          value={filter}
+          options={entitlements.templates === "all" ? TEMPLATE_FILTERS.filter((f) => f.value !== "free") : TEMPLATE_FILTERS}
+          onChange={setFilter}
+        />
+        {useSample ? (
+          <p className="text-xs text-muted-foreground">Thumbnails show sample content until you add your own.</p>
+        ) : null}
         <ul className="grid grid-cols-2 gap-3" role="radiogroup" aria-label="Template">
-          {templates.map((t) => {
+          {visibleTemplates.map((t) => {
             const selected = content.templateId === t.id;
             const allowed = templateAllowed(entitlements, t.id);
             return (
@@ -101,7 +131,15 @@ export function DesignPanel({
                   )}
                 >
                   <div className="h-32 overflow-hidden bg-white">
-                    <ScaledResume content={{ ...thumbContent, templateId: t.id }} clip />
+                    <ScaledResume
+                      content={
+                        useSample
+                          ? { ...sampleForTemplate(t.id), settings: thumbContent.settings }
+                          : { ...thumbContent, templateId: t.id }
+                      }
+                      clip
+                      lazy
+                    />
                   </div>
                   <div className="flex items-center justify-between gap-1 border-t border-border bg-card px-2 py-1.5">
                     <span className="truncate text-xs font-medium">{t.name}</span>
@@ -118,7 +156,7 @@ export function DesignPanel({
                   onClick={() => {
                     if (selected) return;
                     if (!allowed) {
-                      showUpgradeToast(`${t.name} is part of the paid plans, from ₹99. Your Free plan includes Classic, Modern and Minimal.`);
+                      showUpgradeToast(paidTemplateMessage(t.name));
                       return;
                     }
                     update((c) => ({ ...c, templateId: t.id }));
@@ -130,7 +168,13 @@ export function DesignPanel({
             );
           })}
         </ul>
-        {templates.find((t) => t.id === content.templateId)?.atsFriendly ? (
+        {currentMeta.layoutNote ? (
+          <p className="rounded-md bg-muted px-3 py-2 text-xs text-muted-foreground">
+            <span className="font-medium text-foreground">Layout: </span>
+            {currentMeta.layoutNote} Your section order still applies within each area.
+          </p>
+        ) : null}
+        {currentMeta.atsFriendly ? (
           <p className="flex items-center gap-2 text-xs text-muted-foreground">
             <AtsBadge /> Single column, no graphics around key text.
           </p>

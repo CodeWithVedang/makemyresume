@@ -6,20 +6,12 @@ import { useState } from "react";
 
 import { ScaledResume } from "@/components/resume/ScaledResume";
 import { Button } from "@/components/ui/button";
-import { sampleDesigner, sampleMarketer, sampleSoftwareEngineer } from "@/lib/resume/samples";
-import type { ResumeContent, TemplateId } from "@/lib/resume/schema";
+import { sampleForTemplate } from "@/lib/resume/samples";
 import { cn } from "@/lib/utils";
 import { templates, type TemplateCategory } from "@/templates/registry";
 
 import { AtsBadge } from "./AtsBadge";
 
-const SAMPLE_FOR: Record<TemplateId, ResumeContent> = {
-  classic: sampleSoftwareEngineer,
-  modern: sampleSoftwareEngineer,
-  minimal: sampleSoftwareEngineer,
-  executive: sampleMarketer,
-  creative: sampleDesigner,
-};
 
 const FILTERS: Array<"All" | TemplateCategory> = [
   "All",
@@ -72,7 +64,7 @@ export function TemplateGallery({ limit, showFilters = true }: { limit?: number;
             >
               <div className="border-b border-border bg-canvas p-5">
                 <div className="overflow-hidden rounded-sm shadow-card">
-                  <ScaledResume content={{ ...SAMPLE_FOR[t.id], templateId: t.id }} clip />
+                  <ScaledResume content={sampleForTemplate(t.id)} clip lazy />
                 </div>
               </div>
               <div className="flex flex-1 flex-col gap-3 p-5">
@@ -84,11 +76,18 @@ export function TemplateGallery({ limit, showFilters = true }: { limit?: number;
                   {t.atsFriendly ? <AtsBadge /> : null}
                 </div>
                 <p className="text-sm text-muted-foreground">{t.description}</p>
-                <Button asChild variant="outline" className="mt-auto h-10">
-                  <Link href={`/signup?template=${t.id}`} aria-label={`Use the ${t.name} template`}>
-                    Use this template
-                  </Link>
-                </Button>
+                <div className="mt-auto flex gap-2">
+                  <Button asChild className="h-10 flex-1">
+                    <Link href={`/signup?template=${t.id}`} aria-label={`Use the ${t.name} template`}>
+                      Use this template
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" className="h-10">
+                    <Link href={`/templates/${t.id}`} aria-label={`${t.name} template details`}>
+                      Details
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </motion.article>
           </li>

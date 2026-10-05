@@ -46,7 +46,11 @@ export function HeroPreview() {
 
   return (
     <div className="relative">
-      <div className="mb-3 flex flex-wrap gap-1.5" role="radiogroup" aria-label="Preview template">
+      <div
+        className="-mx-4 mb-3 flex gap-1.5 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0"
+        role="radiogroup"
+        aria-label="Preview template"
+      >
         {templates.map((t) => (
           <button
             key={t.id}
@@ -58,7 +62,7 @@ export function HeroPreview() {
               setTemplateId(t.id);
             }}
             className={cn(
-              "h-9 rounded-full border px-3.5 text-sm transition-colors",
+              "h-9 shrink-0 rounded-full border px-3.5 text-sm transition-colors",
               templateId === t.id
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-border bg-card text-muted-foreground hover:text-foreground",

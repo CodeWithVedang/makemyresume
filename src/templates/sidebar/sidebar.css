@@ -1,0 +1,75 @@
+.rs-sidebar-layout {
+  display: grid;
+  grid-template-columns: 32% minmax(0, 1fr);
+  gap: 1.5em;
+}
+.rs-sidebar-layout .rs-side {
+  padding: 1.2em 1em;
+  border-radius: 0.4em;
+  background: color-mix(in srgb, var(--rs-accent) 9%, white);
+  font-size: 0.92em;
+}
+.rs-sidebar-layout .rs-photo {
+  display: block;
+  width: 5em;
+  height: 5em;
+  margin-bottom: 0.8em;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.rs-sidebar-layout .rs-name {
+  font-size: 1.9em;
+  font-weight: 750;
+  line-height: 1.05;
+  color: var(--rs-accent);
+}
+.rs-sidebar-layout .rs-title {
+  margin-top: 0.3em;
+  font-weight: 600;
+}
+.rs-sidebar-layout .rs-side .rs-section {
+  margin-top: 1.2em;
+}
+.rs-sidebar-layout .rs-section-title {
+  margin-bottom: 0.5em;
+  font-size: 0.82em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rs-accent);
+}
+.rs-sidebar-layout .rs-main .rs-section-title {
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--rs-rule);
+}
+.rs-sidebar-layout .rs-contact,
+.rs-sidebar-layout .rs-skills-list ul {
+  list-style: none;
+}
+.rs-sidebar-layout .rs-contact li + li {
+  margin-top: 0.4em;
+}
+.rs-sidebar-layout .rs-contact-label {
+  display: block;
+  font-size: 0.78em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rs-muted);
+}
+.rs-sidebar-layout .rs-skill-group + .rs-skill-group {
+  margin-top: 0.5em;
+}
+.rs-sidebar-layout .rs-side .rs-entry-head {
+  display: block;
+}
+.rs-sidebar-layout .rs-side .rs-dates {
+  display: block;
+  text-align: left;
+}
+.rs-sidebar-layout .rs-entry-title {
+  font-weight: 650;
+}
+.rs-sidebar-layout .rs-entry-subtitle {
+  font-weight: 550;
+  color: var(--rs-accent);
+}

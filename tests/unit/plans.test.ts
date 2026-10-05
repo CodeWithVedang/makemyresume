@@ -5,6 +5,7 @@ import {
   entitlementsFor,
   formatInr,
   monthlyEquivalent,
+  paidTemplateMessage,
   PLANS,
   savingsVsPass,
   templateAllowed,
@@ -57,5 +58,11 @@ describe("plan request email", () => {
     expect(body).toContain("Name: Asha Rao");
     expect(body).toContain("Account email: asha@example.com");
     expect(body).toContain("Current plan: Free");
+  });
+
+  it("paid template message names the Free templates and entry price", () => {
+    expect(paidTemplateMessage("Sidebar")).toBe(
+      `Sidebar is part of the paid plans, from ${formatInr(PLANS.JOB_PASS.priceInr)}. Free includes Classic, Modern, Minimal and Compact.`,
+    );
   });
 });

@@ -5,10 +5,14 @@ import type { ResumeContent, TemplateId } from "@/lib/resume/schema";
 
 import "./base.css";
 import { ClassicTemplate } from "./classic/Classic";
+import { CompactTemplate } from "./compact/Compact";
 import { CreativeTemplate } from "./creative/Creative";
+import { ElegantTemplate } from "./elegant/Elegant";
 import { ExecutiveTemplate } from "./executive/Executive";
 import { MinimalTemplate } from "./minimal/Minimal";
 import { ModernTemplate } from "./modern/Modern";
+import { SidebarTemplate } from "./sidebar/Sidebar";
+import { TechnicalTemplate } from "./technical/Technical";
 
 const TEMPLATE_COMPONENTS: Record<TemplateId, ComponentType<{ content: ResumeContent }>> = {
   classic: ClassicTemplate,
@@ -16,6 +20,10 @@ const TEMPLATE_COMPONENTS: Record<TemplateId, ComponentType<{ content: ResumeCon
   minimal: MinimalTemplate,
   executive: ExecutiveTemplate,
   creative: CreativeTemplate,
+  compact: CompactTemplate,
+  elegant: ElegantTemplate,
+  technical: TechnicalTemplate,
+  sidebar: SidebarTemplate,
 };
 
 export type RenderMode = "screen" | "print";

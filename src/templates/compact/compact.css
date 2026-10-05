@@ -1,0 +1,62 @@
+.rs-compact .rs-header {
+  margin-bottom: 0.7em;
+}
+.rs-compact .rs-name {
+  font-size: 1.9em;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.rs-compact .rs-title {
+  margin-top: 0.1em;
+  font-weight: 600;
+  color: var(--rs-accent);
+}
+.rs-compact .rs-contact {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5em;
+  margin-top: 0.3em;
+  font-size: 0.9em;
+  color: var(--rs-muted);
+}
+.rs-compact .rs-contact li + li::before {
+  content: "|";
+  margin-right: 0.5em;
+  color: var(--rs-rule);
+}
+.rs-compact .rs-section + .rs-section {
+  margin-top: calc(var(--rs-gap) * 0.7);
+}
+.rs-compact .rs-section-title {
+  margin-bottom: 0.35em;
+  padding-bottom: 0.1em;
+  border-bottom: 1px solid var(--rs-ink);
+  font-size: 0.9em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.rs-compact .rs-entry + .rs-entry {
+  margin-top: calc(var(--rs-gap) * 0.4);
+}
+.rs-compact .rs-entry-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.5em;
+}
+.rs-compact .rs-entry-title {
+  font-weight: 700;
+}
+.rs-compact .rs-entry-subtitle::before,
+.rs-compact .rs-entry-meta::before {
+  content: "— ";
+  color: var(--rs-muted);
+}
+.rs-compact .rs-entry-body {
+  margin-top: 0.15em;
+}
+.rs-compact .rs-list li + li {
+  margin-top: 0.05em;
+}

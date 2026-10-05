@@ -86,4 +86,11 @@ describe("template switching", () => {
     expect(html).not.toContain("<img src=x");
     expect(html).toContain("&lt;img");
   });
+
+  it("technical template lists skills right after the summary", () => {
+    const content = { ...fullResume(), templateId: "technical" as const };
+    const html = renderToStaticMarkup(<ResumeRenderer content={content} />);
+    const titles = [...html.matchAll(/<h2 class="rs-section-title">([^<]+)<\/h2>/g)].map((m) => m[1]);
+    expect(titles.slice(0, 2)).toEqual(["Summary", "Skills"]);
+  });
 });
